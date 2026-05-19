@@ -4,13 +4,11 @@ from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-# No Render, essa variável vem do Environment Variables
 DATABASE_URL = os.getenv("DATABASE_URL")
 
 if not DATABASE_URL:
     raise ValueError("DATABASE_URL não configurada")
 
-# Compatibilidade com alguns serviços que usam postgres://
 if DATABASE_URL.startswith("postgres://"):
     DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
 
@@ -26,7 +24,7 @@ Base = declarative_base()
 
 
 class Usuario(Base):
-    tablename = "usuarios"
+    __tablename__ = "usuarios"
 
     id = Column(Integer, primary_key=True, index=True)
     username = Column(String, unique=True, index=True)
@@ -34,7 +32,7 @@ class Usuario(Base):
 
 
 class Tarefa(Base):
-    tablename = "tarefas"
+    __tablename__ = "tarefas"
 
     id = Column(Integer, primary_key=True, index=True)
     titulo = Column(String, index=True)
